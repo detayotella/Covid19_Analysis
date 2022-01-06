@@ -100,8 +100,7 @@ SELECT cd.continent,
 	   cd.date,
 	   cd.population,
 	   cv.new_vaccinations,
-	   sum(cv.new_vaccinations) OVER (PARTITION BY cd.location
-									  ORDER BY cd.location, cd.date) AS rolling_people_vaccinated
+	   sum(cv.new_vaccinations) OVER (PARTITION BY cd.location ORDER BY cd.location, cd.date) AS rolling_people_vaccinated
 FROM covid_deaths cd JOIN covid_vaccination cv
 ON cd.location = cv.location
 	AND cd.date = cv.date
@@ -126,8 +125,7 @@ FROM Pop_vs_Vac;
 
 CREATE OR REPLACE VIEW Percent_Population_Vaccinated AS 
 	SELECT cd.continent, cd.location, cd.date, cd.population, cv.new_vaccinations,
-	sum(cv.new_vaccinations) OVER (PARTITION BY cd.location 
-								   ORDER BY cd.location, cd.date) AS rolling_People_Vaccinated
+	sum(cv.new_vaccinations) OVER (PARTITION BY cd.location ORDER BY cd.location, cd.date) AS rolling_People_Vaccinated
 FROM covid_deaths cd JOIN covid_vaccination cv
 ON cd.location = cv.location
 	AND cd.date = cv.date
